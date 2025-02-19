@@ -32,7 +32,7 @@
 
         document.body.appendChild(app.view);
 
-        PIXI.live2d.Live2DModel.from("suisei_tekoki.model3.json")
+        PIXI.live2d.Live2DModel.from("https://ars-0412.github.io/live2d-test-2/suisei_tekoki.model3.json")
             .then(model => {
                 app.stage.addChild(model);
                 model.scale.set(0.5);
