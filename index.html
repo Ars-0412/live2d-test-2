@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live2Dテスト</title>
+    <script src="https://unpkg.com/pixi.js@7.x/dist/pixi.min.js"></script>
+    <script src="https://unpkg.com/pixi-live2d-display@1.1.0/dist/index.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@cubism/live2d@4.1.06/live2dcubismcore.min.js"></script>
+</head>
+<body>
+    <canvas id="canvas"></canvas>
+
+    <script>
+        const app = new PIXI.Application({ view: document.getElementById("canvas"), width: 800, height: 600 });
+
+        PIXI.live2d.Live2DModel.from("suisei_tekoki.model3.json")
+            .then(model => {
+                app.stage.addChild(model);
+                model.x = 400;
+                model.y = 300;
+                model.scale.set(0.5);
+                model.interactive = true;
+
+                console.log("Live2Dモデルが正常にロードされました！");
+
+                // クリックでモーション再生
+                model.on("pointerdown", () => {
+                    model.motion("TapBody");
+                });
+
+            })
+            .catch(error => {
+                console.error("Live2Dモデルの読み込みに失敗しました:", error);
+            });
+    </script>
+</body>
+</html>
+
