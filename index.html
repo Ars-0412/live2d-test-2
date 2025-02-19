@@ -3,42 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Live2D テスト</title>
-    <!-- PixiJS を先に読み込む -->
+    <title>Live2D Cubism 4.2 テスト</title>
+    <!-- 必要なライブラリ -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/7.2.4/pixi.min.js"></script>
-    <!-- pixi-live2d-display の最新版 -->
-    <script src="https://cdn.jsdelivr.net/npm/pixi-live2d-display@0.4.0"></script>
-    <script src=<script src="live2dcubismcore.min.js"></script>></script>
-    <script src="live2d.min.js"></script>
+    <script src="libs/live2dcubismcore.min.js"></script> <!-- ローカルに配置した live2dcubismcore.min.js -->
+    <script src="https://cdn.jsdelivr.net/npm/pixi-live2d-display@0.5.0-beta"></script> <!-- 最新の pixi-live2d-display -->
 </head>
 <body>
     <canvas id="canvas"></canvas>
     <script>
-        console.log("PixiJS:", PIXI); // PixiJSが読み込まれているか確認
-        console.log("Live2D:", PIXI.live2d); // Live2Dが読み込まれているか確認
+        // PixiJS と Live2D が正しく読み込まれているか確認
+        console.log("PixiJS:", window.PIXI);
+        console.log("Live2D:", window.PIXI?.live2d);
 
-        const app = new PIXI.Application({ view: document.getElementById("canvas"), width: 800, height: 600 });
-
-        PIXI.live2d.Live2DModel.from("suisei_tekoki.model3.json")
-            .then(model => {
-                app.stage.addChild(model);
-                model.scale.set(0.5);
-                model.x = app.view.width / 2;
-                model.y = app.view.height / 2;
-                model.anchor.set(0.5, 0.5);
-                model.interactive = true;
-
-                console.log("✅ Live2Dモデルが正しく読み込まれました！");
-
-                // クリックでモーション再生
-                model.on("pointerdown", () => {
-                    model.motion("TapBody");
-                });
-            })
-            .catch(error => {
-                console.error("❌ Live2Dモデルの読み込みに失敗しました:", error);
-            });
+        if (!window.PIXI) {
+            console.error("❌ PixiJS の読み込みに失敗しました！");
+        } else if (!window.PIXI.live2d) {
+            console.error("❌ pixi-live2d-display の読み込みに失敗しました！");
+        } else {
+            console.log("✅ PixiJS と Live2D が正しく読み込まれました！");
+            // ここにアプリケーションの初期化コードを追加
+        }
     </script>
 </body>
 </html>
-
