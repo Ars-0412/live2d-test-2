@@ -14,7 +14,7 @@
     <script>
         const app = new PIXI.Application({ view: document.getElementById("canvas"), width: 800, height: 600 });
 
-        PIXI.live2d.Live2DModel.from("suisei_tekoki.model3.json")
+        PIXI.live2d.Model.from("suisei_tekoki.model3.json")
             .then(model => {
                 app.stage.addChild(model);
                 model.x = 400;
