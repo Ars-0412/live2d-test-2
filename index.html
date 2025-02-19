@@ -5,15 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Live2D Cubism 4 テスト</title>
 
-    <!-- PixiJS v7 -->
-    <script src="https://cdn.jsdelivr.net/npm/pixi.js@7.2.4"></script>
+    <!-- PixiJS の読み込み -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/7.2.4/pixi.min.js"></script>
 
-    <!-- Live2D用スクリプト -->
-    <script src="libs/live2d.min.js" defer></script>
-    <script src="libs/live2dcubismcore.min.js" defer></script>
-
-    <script src="https://cdn.jsdelivr.net/npm/pixi-live2d-display"></script>
-
+    <!-- Live2D 関連スクリプト -->
+    <script src="libs/live2d.min.js"></script>
+    <script src="libs/live2dcubismcore.min.js"></script>
+    <script src="dist/index.umd.js"></script>
 </head>
 <body>
     <canvas id="canvas"></canvas>
@@ -31,35 +29,34 @@
             console.log("✅ PixiJS と Live2D が正しく読み込まれました！");
         }
 
-        // Pixiのアプリケーションを作成（重複防止）
-        if (!window.app) {
-            window.app = new PIXI.Application({
-                view: document.getElementById("canvas"),
-                width: 800,
-                height: 600
-            });
-        }
+        // Pixi のアプリケーションを作成
+        const app = new PIXI.Application({
+            view: document.getElementById("canvas"),
+            width: 800,
+            height: 600,
+            backgroundAlpha: 0, // 背景透明
+        });
 
-        // Live2Dモデルの読み込み
+        // Live2D モデルの読み込み
         PIXI.live2d.Live2DModel.from("models/suisei_tekoki.model3.json")
             .then(model => {
                 app.stage.addChild(model);
+                console.log("✅ Live2Dモデルが正常に読み込まれました！");
+
+                // モデルのサイズ調整
                 model.scale.set(0.5);
-                model.x = app.view.width / 2;
-                model.y = app.view.height / 2;
-                model.anchor.set(0.5, 0.5);
-                model.interactive = true;
+                model.x = app.renderer.width / 2;
+                model.y = app.renderer.height / 2;
 
-                console.log("✅ Live2Dモデルが正しく読み込まれました！");
-
-                // クリックでモーション再生
+                // クリックで動作するように
                 model.on("pointerdown", () => {
                     model.motion("TapBody");
                 });
+
+                // クリックを有効に
+                model.interactive = true;
             })
-            .catch(error => {
-                console.error("❌ Live2Dモデルの読み込みに失敗しました:", error);
-            });
+            .catch(error => console.error("❌ Live2Dモデルの読み込みに失敗しました！", error));
     </script>
 </body>
 </html>
