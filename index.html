@@ -4,10 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Live2D Cubism 4.2 テスト</title>
-    <!-- 必要なライブラリ -->
+    <!-- Live2D Coreを最初に読み込む -->
+    <script src="live2dcubismcore.min.js"></script>
+    <!-- PixiJS を読み込む -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/7.2.4/pixi.min.js"></script>
-    <script src="libs/live2dcubismcore.min.js"></script> <!-- ローカルに配置した live2dcubismcore.min.js -->
-    <script src="https://cdn.jsdelivr.net/npm/pixi-live2d-display@0.5.0-beta"></script> <!-- 最新の pixi-live2d-display -->
+    <!-- pixi-live2d-display (Cubism 4.2対応版) -->
+    <script src="https://cdn.jsdelivr.net/npm/pixi-live2d-display@0.5.0-beta"></script>
 </head>
 <body>
     <canvas id="canvas"></canvas>
@@ -22,7 +24,6 @@
             console.error("❌ pixi-live2d-display の読み込みに失敗しました！");
         } else {
             console.log("✅ PixiJS と Live2D が正しく読み込まれました！");
-            // ここにアプリケーションの初期化コードを追加
         }
     </script>
 </body>
