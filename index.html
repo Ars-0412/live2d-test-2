@@ -4,70 +4,65 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Live2Dテスト</title>
-    
-    <!-- Pixi.js の読み込み -->
+
+    <!-- PixiJSの読み込み -->
     <script src="https://unpkg.com/pixi.js@7.x/dist/pixi.min.js"></script>
-    
-    <!-- 最新の pixi-live2d-display の読み込み（バージョン指定） -->
-    <script src="https://cdn.jsdelivr.net/npm/pixi-live2d-display@1.1.0/dist/index.min.js"></script>
-    
-    <!-- Live2D Cubism SDK（必要な場合） -->
+
+    <!-- pixi-live2d-display の最新安定版（0.5.0-beta）の読み込み -->
+    <script src="https://cdn.jsdelivr.net/npm/pixi-live2d-display@0.5.0-beta/dist/index.min.js"></script>
+
+    <!-- Live2D Cubism Core の読み込み（必須）-->
     <script src="https://cdn.jsdelivr.net/npm/@cubism/live2d@4.1.06/live2dcubismcore.min.js"></script>
 
     <style>
+        /* キャンバスをページ中央に配置 */
         body {
-            margin: 0;
-            background-color: black; /* 背景を黒に設定（見やすくする） */
             display: flex;
-            align-items: center;
             justify-content: center;
+            align-items: center;
             height: 100vh;
-            overflow: hidden;
-        }
-        canvas {
-            display: block;
+            margin: 0;
+            background-color: #000; /* 背景を黒に設定 */
         }
     </style>
 </head>
 <body>
+    <!-- Live2D を表示するキャンバス -->
+    <canvas id="canvas"></canvas>
 
     <script>
-        // Pixiアプリの作成
+        // PixiJS のアプリケーションを作成
         const app = new PIXI.Application({
+            view: document.getElementById("canvas"), // 既存の canvas 要素を指定
             width: 800,
             height: 600,
-            backgroundAlpha: 0, // 背景を透明に
-            view: document.createElement("canvas")
+            backgroundAlpha: 0 // 背景を透明に
         });
 
-        // ページにキャンバスを追加
-        document.body.appendChild(app.view);
+        // Live2Dモデルの読み込み
+        PIXI.live2d.Live2DModel.from("suisei_tekoki.model3.json").then(model => {
+            // モデルをステージに追加
+            app.stage.addChild(model);
 
-        // Live2Dモデルのロード
-        PIXI.live2d.Model.from("suisei_tekoki.model3.json")
-            .then(model => {
-                app.stage.addChild(model);
+            // モデルの位置とスケールを設定
+            model.x = app.view.width / 2;
+            model.y = app.view.height / 2;
+            model.scale.set(0.5);
+            model.anchor.set(0.5); // モデルの中心を基準に配置
 
-                // モデルの位置・サイズ調整
-                model.scale.set(0.5);
-                model.x = app.view.width / 2;
-                model.y = app.view.height / 2;
-                model.anchor.set(0.5, 0.5); // 中心に配置
+            // モデルをインタラクティブに設定
+            model.interactive = true;
 
-                model.interactive = true;
+            console.log("✅ Live2Dモデルが正常にロードされました！");
 
-                console.log("✅ Live2Dモデルが正常にロードされました！");
-
-                // クリックでモーション再生
-                model.on("pointerdown", () => {
-                    model.motion("TapBody"); // "TapBody" は Live2D モーションの名前
-                });
-
-            })
-            .catch(error => {
-                console.error("❌ Live2Dモデルの読み込みに失敗しました:", error);
+            // クリック時のモーション再生
+            model.on("pointerdown", () => {
+                model.motion("TapBody"); // "TapBody" はLive2Dのモーション名
             });
-    </script>
 
+        }).catch(error => {
+            console.error("❌ Live2Dモデルの読み込みに失敗しました:", error);
+        });
+    </script>
 </body>
 </html>
