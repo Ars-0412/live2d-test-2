@@ -5,69 +5,34 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Live2Dテスト</title>
 
-    <!-- ✅ PixiJS（最新版） -->
+    <!-- 必要なライブラリを読み込む -->
     <script src="https://unpkg.com/pixi.js@7.x/dist/pixi.min.js"></script>
-
-    <!-- ✅ Live2D Cubism Core -->
-    <script src="https://cdn.jsdelivr.net/npm/@cubism/live2d@4.2.02/live2dcubismcore.min.js"></script>
-
-    <!-- ✅ pixi-live2d-display（バージョン 1.0.0 に変更！） -->
-    <script src="https://cdn.jsdelivr.net/npm/pixi-live2d-display@1.0.0/dist/index.min.js"></script>
-
-    <style>
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            background-color: black;
-        }
-    </style>
+    <script src="https://cdn.jsdelivr.net/npm/pixi-live2d-display@0.4.0/dist/index.min.js"></script>
 </head>
 <body>
-    <canvas id="canvas"></canvas>
-
     <script>
-        // ✅ PixiJS & Live2D の読み込み確認
-        console.log("PixiJS:", PIXI);
-        console.log("Live2D:", PIXI.live2d);
+        // PIXIアプリケーションを作成
+        const app = new PIXI.Application({ view: document.body.appendChild(document.createElement("canvas")) });
 
-        if (!PIXI || !PIXI.live2d) {
-            console.error("❌ PixiJS または Live2D の読み込みに失敗しました！");
-        } else {
-            console.log("✅ PixiJS & Live2D 読み込み成功！");
-        }
+        // Live2Dモデルを読み込む
+        PIXI.live2d.Live2DModel.from("suisei_tekoki.model3.json")
+            .then(model => {
+                app.stage.addChild(model);
 
-        // PixiJS のアプリケーションを作成
-        const app = new PIXI.Application({
-            view: document.getElementById("canvas"),
-            width: 800,
-            height: 600,
-            backgroundAlpha: 0
-        });
+                // モデルの配置
+                model.x = app.view.width / 2;
+                model.y = app.view.height / 2;
+                model.anchor.set(0.5, 0.5);
 
-        // ✅ Live2Dモデルの読み込み（バージョン1.0.0で試す）
-        PIXI.live2d.Model.from("suisei_tekoki.model3.json").then(model => {
-            app.stage.addChild(model);
-
-            // モデルの位置とスケール
-            model.x = app.view.width / 2;
-            model.y = app.view.height / 2;
-            model.scale.set(0.5);
-            model.anchor.set(0.5);
-
-            model.interactive = true;
-            console.log("✅ Live2Dモデルが正常にロードされました！");
-
-            // クリックでモーション再生
-            model.on("pointerdown", () => {
-                model.motion("TapBody");
+                console.log("✅ Live2Dモデルが正常に読み込まれました！");
+            })
+            .catch(error => {
+                console.error("❌ Live2Dモデルの読み込みに失敗しました:", error);
             });
 
-        }).catch(error => {
-            console.error("❌ Live2Dモデルの読み込みに失敗しました:", error);
-        });
+        // 確認用のログ
+        console.log("PixiJS:", PIXI);
+        console.log("Live2D:", PIXI.live2d);
     </script>
 </body>
 </html>
