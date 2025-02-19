@@ -5,27 +5,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Live2D Cubism 4 テスト</title>
 
-    <!-- PixiJS (バージョン7) -->
-    <script src="https://cdn.jsdelivr.net/npm/pixi.js@7"></script>
+    <!-- PixiJS v6 を指定 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/6.5.8/pixi.min.js"></script>
 
     <!-- Live2D Core -->
     <script src="libs/live2d.min.js"></script>
     <script src="libs/live2dcubismcore.min.js"></script>
 
-    <!-- 作成した UMD ファイル -->
+    <!-- UMD版の index.js を読み込む -->
     <script src="dist/index.umd.js"></script>
-
 </head>
 <body>
     <canvas id="canvas" width="1280" height="720"></canvas>
 
     <script>
-        // PixiJS のアプリケーションを作成
+        // PixiJS アプリケーションの作成（v6 用の記述）
         const app = new PIXI.Application({
             view: document.getElementById("canvas"),
             width: 1280,
             height: 720,
-            backgroundAlpha: 0,  // 背景透明
+            transparent: true
         });
 
         // Live2D モデルの読み込み
