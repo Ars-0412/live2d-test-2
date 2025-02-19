@@ -9,11 +9,11 @@
     <script src="https://cdn.jsdelivr.net/npm/pixi.js@7.2.4"></script>
 
     <!-- Live2D用スクリプト -->
-    <script src="libs/live2d.min.js"></script>
-    <script src="libs/live2dcubismcore.min.js"></script>
+    <script src="libs/live2d.min.js" defer></script>
+    <script src="libs/live2dcubismcore.min.js" defer></script>
 
-    <!-- Pixi Live2D Display（安定版 0.4.0） -->
-    <script src="https://cdn.jsdelivr.net/npm/pixi-live2d-display@0.4.0/dist/index.min.js"></script>
+    <!-- Pixi Live2D Display（安定版 0.4.0 UMD） -->
+    <script src="https://cdn.jsdelivr.net/npm/pixi-live2d-display@0.4.0/dist/index.umd.js"></script>
 </head>
 <body>
     <canvas id="canvas"></canvas>
@@ -31,12 +31,14 @@
             console.log("✅ PixiJS と Live2D が正しく読み込まれました！");
         }
 
-        // Pixiのアプリケーションを作成
-        const app = new PIXI.Application({
-            view: document.getElementById("canvas"),
-            width: 800,
-            height: 600
-        });
+        // Pixiのアプリケーションを作成（重複防止）
+        if (!window.app) {
+            window.app = new PIXI.Application({
+                view: document.getElementById("canvas"),
+                width: 800,
+                height: 600
+            });
+        }
 
         // Live2Dモデルの読み込み
         PIXI.live2d.Live2DModel.from("models/suisei_tekoki.model3.json")
