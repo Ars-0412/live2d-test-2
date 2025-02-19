@@ -5,19 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Live2D Cubism 4 テスト</title>
 
-    <!-- PixiJS を読み込む -->
+    <!-- PixiJS (バージョン7) -->
     <script src="https://cdn.jsdelivr.net/npm/pixi.js@7"></script>
 
-    <!-- Live2D Core を読み込む -->
+    <!-- Live2D Core -->
     <script src="libs/live2d.min.js"></script>
     <script src="libs/live2dcubismcore.min.js"></script>
 
-    <!-- PixiJS + Live2D (UMD版) -->
+    <!-- 作成した UMD ファイル -->
     <script src="dist/index.umd.js"></script>
 
 </head>
 <body>
-    <!-- キャンバスのサイズを 1280x720 に設定 -->
     <canvas id="canvas" width="1280" height="720"></canvas>
 
     <script>
@@ -29,19 +28,14 @@
             backgroundAlpha: 0,  // 背景透明
         });
 
-        // Live2Dモデルの読み込み
-        PIXI.live2d.Live2DModel.from("models/suisei_tekoki.model3.json").then(model => {
-            // モデルのスケールを調整（小さめに）
-            model.scale.set(0.3); // ここを 0.3 に変更
-
-            // モデルの基準位置を中央に設定
-            model.anchor.set(0.5, 0.5);
-
-            // モデルの位置をキャンバスの中央に
+        // Live2D モデルの読み込み
+        PixiLive2DDisplay.Live2DModel.from("models/suisei_tekoki.model3.json").then(model => {
+            model.scale.set(0.3); // モデルを縮小
+            model.anchor.set(0.5, 0.5); // モデルの中心を基準に
             model.x = app.renderer.width / 2;
             model.y = app.renderer.height / 2;
 
-            // モデルをPixiJSのステージに追加
+            // ステージに追加
             app.stage.addChild(model);
         });
     </script>
