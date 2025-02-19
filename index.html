@@ -28,29 +28,35 @@
             console.error("❌ pixi-live2d-display の読み込みに失敗しました！");
         } else {
             console.log("✅ PixiJS と Live2D が正しく読み込まれました！");
-
-            // PixiJS のアプリケーションを作成
-            const app = new PIXI.Application({
-                view: document.getElementById("canvas"),
-                width: 800,
-                height: 600
-            });
-
-            // Live2D モデルの読み込み
-    PIXI.live2d.Live2DModel.from("suisei_tekoki.model3.json")
-    .then(model => {
-        console.log("✅ Live2Dモデルのロード成功:", model);
-        app.stage.addChild(model);
-        model.scale.set(0.5);
-        model.x = app.view.width / 2;
-        model.y = app.view.height / 2;
-        model.anchor.set(0.5, 0.5);
-        model.interactive = true;
-    })
-    .catch(error => {
-        console.error("❌ Live2Dモデルのロード失敗:", error);
-    });
         }
+
+        // PixiJS のアプリケーションを作成
+        const app = new PIXI.Application({
+            view: document.getElementById("canvas"),
+            width: 800,
+            height: 600
+        });
+
+        // Live2D モデルの読み込み
+        PIXI.live2d.Live2DModel.from("suisei_tekoki.model3.json")
+            .then(model => {
+                app.stage.addChild(model);
+                model.scale.set(0.5);
+                model.x = app.view.width / 2;
+                model.y = app.view.height / 2;
+                model.anchor.set(0.5, 0.5);
+                model.interactive = true;
+
+                console.log("✅ Live2Dモデルが正しく読み込まれました！");
+
+                // クリックでモーション再生
+                model.on("pointerdown", () => {
+                    model.motion("TapBody");
+                });
+            })
+            .catch(error => {
+                console.error("❌ Live2Dモデルの読み込みに失敗しました:", error);
+            });
     </script>
 </body>
 </html>
