@@ -5,24 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Live2Dテスト</title>
 
-    <!-- PixiJSの読み込み -->
+    <!-- ✅ 正しいPixiJSの読み込み -->
     <script src="https://unpkg.com/pixi.js@7.x/dist/pixi.min.js"></script>
 
-    <!-- Live2D Cubism Core の最新バージョン -->
+    <!-- ✅ 正しいLive2D Cubism Core（4.2.02） -->
     <script src="https://cdn.jsdelivr.net/npm/@cubism/live2d@4.2.02/live2dcubismcore.min.js"></script>
 
-    <!-- pixi-live2d-display の最新バージョン -->
+    <!-- ✅ 最新の pixi-live2d-display のCDN -->
     <script src="https://cdn.jsdelivr.net/npm/pixi-live2d-display@0.5.0-beta/dist/index.min.js"></script>
 
     <style>
-        /* キャンバスをページ中央に配置 */
         body {
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
             margin: 0;
-            background-color: #000; /* 背景を黒に設定 */
+            background-color: black; /* 背景を黒に設定 */
         }
     </style>
 </head>
@@ -33,7 +32,7 @@
     <script>
         // PixiJS のアプリケーションを作成
         const app = new PIXI.Application({
-            view: document.getElementById("canvas"), // 既存の canvas 要素を指定
+            view: document.getElementById("canvas"), // 既存の canvas を指定
             width: 800,
             height: 600,
             backgroundAlpha: 0 // 背景を透明に
@@ -41,7 +40,6 @@
 
         // Live2Dモデルの読み込み
         PIXI.live2d.Live2DModel.from("suisei_tekoki.model3.json").then(model => {
-            // モデルをステージに追加
             app.stage.addChild(model);
 
             // モデルの位置とスケールを設定
