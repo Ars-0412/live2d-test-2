@@ -4,29 +4,63 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Live2Dテスト</title>
+    
+    <!-- Pixi.js の読み込み -->
     <script src="https://unpkg.com/pixi.js@7.x/dist/pixi.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/pixi-live2d-display@1.1.0/dist/pixi-live2d-display.min.js"></script>
+    
+    <!-- 最新の pixi-live2d-display の読み込み（バージョン指定） -->
+    <script src="https://cdn.jsdelivr.net/npm/pixi-live2d-display@1.1.0/dist/index.min.js"></script>
+    
+    <!-- Live2D Cubism SDK（必要な場合） -->
     <script src="https://cdn.jsdelivr.net/npm/@cubism/live2d@4.1.06/live2dcubismcore.min.js"></script>
+
+    <style>
+        body {
+            margin: 0;
+            background-color: black; /* 背景を黒に設定（見やすくする） */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+        canvas {
+            display: block;
+        }
+    </style>
 </head>
 <body>
-    <canvas id="canvas"></canvas>
 
     <script>
-        const app = new PIXI.Application({ view: document.getElementById("canvas"), width: 800, height: 600 });
+        // Pixiアプリの作成
+        const app = new PIXI.Application({
+            width: 800,
+            height: 600,
+            backgroundAlpha: 0, // 背景を透明に
+            view: document.createElement("canvas")
+        });
 
+        // ページにキャンバスを追加
+        document.body.appendChild(app.view);
+
+        // Live2Dモデルのロード
         PIXI.live2d.Model.from("suisei_tekoki.model3.json")
             .then(model => {
                 app.stage.addChild(model);
-                model.x = 400;
-                model.y = 300;
+
+                // モデルの位置・サイズ調整
                 model.scale.set(0.5);
+                model.x = app.view.width / 2;
+                model.y = app.view.height / 2;
+                model.anchor.set(0.5, 0.5); // 中心に配置
+
                 model.interactive = true;
 
                 console.log("✅ Live2Dモデルが正常にロードされました！");
 
                 // クリックでモーション再生
                 model.on("pointerdown", () => {
-                    model.motion("TapBody");
+                    model.motion("TapBody"); // "TapBody" は Live2D モーションの名前
                 });
 
             })
@@ -34,5 +68,6 @@
                 console.error("❌ Live2Dモデルの読み込みに失敗しました:", error);
             });
     </script>
+
 </body>
 </html>
