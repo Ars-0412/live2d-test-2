@@ -5,6 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Live2D Cubism 4 テスト</title>
 
+    <!-- `process` をブラウザでエミュレート -->
+    <script>
+      window.process = { env: { NODE_ENV: "production" } };
+    </script>
+
     <!-- PixiJS の読み込み -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/7.2.4/pixi.min.js"></script>
 
