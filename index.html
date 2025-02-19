@@ -5,14 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Live2Dテスト</title>
 
-    <!-- ✅ PixiJS を最初に読み込む -->
+    <!-- ✅ PixiJS（最新版） -->
     <script src="https://unpkg.com/pixi.js@7.x/dist/pixi.min.js"></script>
 
     <!-- ✅ Live2D Cubism Core -->
     <script src="https://cdn.jsdelivr.net/npm/@cubism/live2d@4.2.02/live2dcubismcore.min.js"></script>
 
-    <!-- ✅ pixi-live2d-display -->
-    <script src="https://cdn.jsdelivr.net/npm/pixi-live2d-display@0.5.0-beta/dist/index.min.js"></script>
+    <!-- ✅ pixi-live2d-display（バージョン 1.0.0 に変更！） -->
+    <script src="https://cdn.jsdelivr.net/npm/pixi-live2d-display@1.0.0/dist/index.min.js"></script>
 
     <style>
         body {
@@ -29,7 +29,7 @@
     <canvas id="canvas"></canvas>
 
     <script>
-        // ✅ PixiJS が正しく読み込まれているか確認
+        // ✅ PixiJS & Live2D の読み込み確認
         console.log("PixiJS:", PIXI);
         console.log("Live2D:", PIXI.live2d);
 
@@ -47,8 +47,8 @@
             backgroundAlpha: 0
         });
 
-        // Live2Dモデルの読み込み
-        PIXI.live2d.Live2DModel.from("suisei_tekoki.model3.json").then(model => {
+        // ✅ Live2Dモデルの読み込み（バージョン1.0.0で試す）
+        PIXI.live2d.Model.from("suisei_tekoki.model3.json").then(model => {
             app.stage.addChild(model);
 
             // モデルの位置とスケール
